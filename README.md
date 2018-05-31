@@ -45,7 +45,7 @@ Los ejercicios y una presentación está disponible en https://github.com/surasi
 git clone https://github.com/surasiterix/apichol
 ```
 
-## Inmportante recordar
+## Importante recordar
 
 Cada ejercicio tiene un subdirectorio. ***Asegúrate de estar en el subdirectorio acorde con el número de ejercicio, sobre todo al ejecutar comandos desde la CLI***
 
