@@ -47,7 +47,7 @@ git clone https://github.com/surasiterix/apichol
 
 ## Inmportante recordar
 
-Cada ejercicio tiene un subdirectorio. ***Asegúrate de estar en el subdirectorio acorde con el ejercicio, sobre todo al ejecutar comandos desde la CLI***
+Cada ejercicio tiene un subdirectorio. ***Asegúrate de estar en el subdirectorio acorde con el número de ejercicio, sobre todo al ejecutar comandos desde la CLI***
 
 ## Ejercicios disponibles en este Lab
 
