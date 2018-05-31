@@ -1,97 +1,78 @@
 # API Connect Hands-On Lab
 
-## Prerequisites
+## Prerrequisitos
 
-Needless to say you'll need a laptop! It is recommended you use a Mac OS or a ubuntu desktop version laptop. Also make sure you install the following software prior to the session:
+Además de necesitar una computadora, necesitarás el siguiente software antes de empezar el laboratorio:
+-	Git: http://git-scm.com/downloads
+- CLI de Cloud Foundry: https://github.com/cloudfoundry/cli#downloads
+- npm para NodeJs: https://nodejs.org/en/download/
+- API Connect Developer Kit: https://www.npmjs.com/package/apiconnect
 
-You can verify the versions of the required or pre-installed software by running the following commands and ensuring that you have the following versions (or higher).
+También precisarás una cuenta en IBM Cloud: https://console.bluemix.net/registration/
+
+Las versiones que se precisan deben ser mayor o igual a las presentadas a continuación:
 
 ```
 git --version
-git version 2.7.4
+git version 2.15.0
 ```
 
 ```
 cf --version
-cf version 6.21.1+6fd3c9f-2016-08-10
+cf version 6.37.0+XXXXXXXXX
 ```
 
 ```
 node --version
-v4.5.0
+v8.9.1
 ```
 
 ```
 npm --version
-3.10.7
+6.1.0
 ```
 
 ```
 apic --version
-API Connect: v5.0.3.0 iFix 2
+API Connect: v5.0.8.3
 ```
 
+## Recursos para el Lab
 
-The software can also be installed from
-
-- Git from [http://git-scm.com/downloads](http://git-scm.com/downloads) or "brew install git"
-
-- The `cf` CLI from [https://github.com/cloudfoundry/cli#downloads] (https://github.com/cloudfoundry/cli#downloads) - download the latest version that is appropriate for your laptop and follow the instructions in README.txt. 
-<p>
-OR 
-<p>
-from [http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html](http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html).
-
-- Install npm - Install `nodejs` from [https://nodejs.org/en/download/](https://nodejs.org/en/download/) which also installs `npm`.
-
-- Install API connect Developer kit - Install API connect Developer Kit after installing `npm` from [https://www.npmjs.com/package/apiconnect] (https://www.npmjs.com/package/apiconnect)
-
-### Sign up for a Bluemix account
-
-- **Sign up for a new account on a Bluemix hosted instance** - It is recommended you create a new account from [https://console.ng.bluemix.net/] (https://console.ng.bluemix.net/) especially if you have not created this account in the last few days.
-
-## Lab software
-The software including the instructions is available from [https://github.com/ragsns/apichol] (https://github.com/ragsns/apichol). Install the software locally on your laptop by running the followng command.
+Los ejercicios y una presentación está disponible en https://github.com/surasiterix/apichol. Clona el repositorio en tu máquina para tener el material del curso.
 
 ```
-git clone https://github.com/ragsns/apichol
+git clone https://github.com/surasiterix/apichol
 ```
 
-If the lab software has already been installed (you should be able to see a subdirectory named `apichol`) ensure that you have the latest updates by issuing the following command.
+## Inmportante recordar
 
-```
-cd apichol
-git pull
-```
+Cada ejercicio tiene un subdirectorio. ***Asegúrate de estar en el subdirectorio acorde con el ejercicio, sobre todo al ejecutar comandos desde la CLI***
 
-## Samples and General Directions
+## Ejercicios disponibles en este Lab
 
-Each exercise is in a separate sub-directory. ***Ensure that you're in the sub-directory when you're working on a particular exercise and you're issuing the CLI commands from the subdirectory pertaining to the exercise.***
+Los ejercicios están pensados para realizarse secuencialmente, ya que son progresivos y dependientes entre si. Cada ejercicio está pensado para desarrollarse entre 5 y 10 minutos.
 
+- Ejercicio 1: [Instalar Node.js y el toolkit de API Connect](exercises/ex1)
+- Ejercicio 2: [Diseñar especificaciones swagger OpenAPI](exercises/ex2)
+- Ejercicio 3: [Generar aplicaciones LoopBack e importar APIs](exercises/ex3)
+- Ejercicio 4: [Crear un servicio de base de datos en IBM Cloud](exercises/ex4)
+- Ejercicio 5: [Crear APIs CRUD a base de datos con modelos LoopBack](exercises/ex5)
+- Ejercicio 6: [Probar, Explorar y desplegar aplicaciones LoopBack](exercises/ex6)
+- Ejercicio 7: [Explorar APIs desplegados con API Manager en IBM Cloud](exercises/ex7)
+- Ejercicio 8: [Tour A - Crear una API metereológica usando API Connect en IBM Cloud](exercises/ex8)
+- Ejercicio 9: [Tour B - Generar un Portal de desarrolladores para tus APIs metereológicas](exercises/ex9)
 
-## Recommended Exercises - User Related
+## Mas información
 
-It is recommended that you run through these exercises sequentially since they are progressive with some dependencies. Each exercise should take about 5-10 mins. to complete.
+Tutoriales de API Connect en https://console.ng.bluemix.net/docs/services/apiconnect/index.html
 
+Manual de referencia (Knowledge Center) del Developer Toolkit de API Connect en https://www.ibm.com/support/knowledgecenter/SSMNED_5.0.0/mapfiles/getting_started.html
 
-- Exercise 1: [Install Node.js and the API Connect toolkit](exercises/ex1)
-- Exercise 2: [Design your OpenAPI Swagger specification](exercises/ex2)
-- Exercise 3: [Generate a LoopBack application and import your APIs](exercises/ex3)
-- Exercise 4: [Create a database service on Bluemix](exercises/ex4)
-- Exercise 5: [Create database CRUD APIs with LoopBack models](exercises/ex5)
-- Exercise 6: [Test, Explore and Deploy your LoopBack application](exercises/ex6)
-- Exercise 7: [Explore your deployed APIs with the API Manager on Bluemix](exercises/ex7)
-- Exercise 8: [Tour A - Create a Weather API using API Connect on Bluemix](exercises/ex8)
-- Exercise 9: [Tour B - Generate a Developer Portal for your Weather APIs](exercises/ex9)
+Documentación para LoopBack en http://loopback.io/
 
+## Agradecimientos
 
-## More Resources
+Este laboratorio fue adaptado del original (https://github.com/ibm-apiconnect/apichol) para el IBM Code Day en Montevideo (http://ibmcodedaymvd.com)
 
-Quick tour of API connect at [https://console.ng.bluemix.net/docs/services/apiconnect/index.html] (https://console.ng.bluemix.net/docs/services/apiconnect/index.html)
-
-API Connect Developer Toolkit at [https://www.npmjs.com/package/apiconnect] (https://www.npmjs.com/package/apiconnect)
-
-
-## Contact
-
-Please contact us at Twitter @ragss or @boilerupnc or @sai_vennam.
+Síguenos en twitter @IBMUruguay
