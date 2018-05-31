@@ -1,186 +1,126 @@
-#API Connect Hands-On Labs
+# API Connect Hands-On Labs
 
-##Exercise 1: Install Node.js, API Connect Toolkit, target a Bluemix instance and create a sample "hello world" API connect project
+## Ejercicio 1: Instalar Node.js y el toolkit de API Connect
 
-### Prerequisites
+### Prerrequisitos
 
-It is recommended you use a Mac OS or a ubuntu desktop version laptop. Also make sure to install the following software prior to the session:
-
-You can verify the versions of the required or pre-installed software by running the following commands and ensuring that you have the following versions (or higher).
+Tener pronto el software requerido en la introducción. Prepara un directorio donde quieres que resida el material del laboratorio y clona el repositorio usando Git:
 
 ```
-git --version
-git version 2.7.4
+git clone https://github.com/surasiterix/apichol
 ```
 
-```
-cf --version
-cf version 6.21.1+6fd3c9f-2016-08-10
-```
+Se debió crear un directorio llamado `apichol` donde están todos los contenidos de este laboratorio.
+
+### Asegurate de estar en el directorio correcto
 
 ```
-node --version
-v4.5.0
+cd <ruta>/apichol/exercises/ex1
 ```
 
-```
-npm --version
-3.10.7
-```
+### Sunmario
 
-```
-apic --version
-API Connect: v5.0.3.0 iFix 2
-```
+En este ejercio prepararemos nuestra instancia de Cloud Foundry en IBM Cloud y los servicios de API Connect local.
 
+### Paso 1: Apuntar a nuestra instancia de IBM Cloud
 
-The software can also be installed (if you Bring Your Own Laptop) from
-
-- Git from [http://git-scm.com/downloads](http://git-scm.com/downloads) or "brew install git"
-
-- The `cf` CLI from [https://github.com/cloudfoundry/cli#downloads] (https://github.com/cloudfoundry/cli#downloads) - download the latest version that is appropriate for your laptop and follow the instructions in README.txt.
-<p>
-OR
-<p>
-from [http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html](http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html).
-
-- Install npm - Install `nodejs` from [https://nodejs.org/en/download/](https://nodejs.org/en/download/) which also installs `npm`.
-
-- Install API connect Developer kit - Install API connect Developer Kit after installing `npm` from [https://www.npmjs.com/package/apiconnect] (https://www.npmjs.com/package/apiconnect)
-
-###Sign up for a Bluemix account
-
-**Sign up for a new account on a Bluemix hosted instance** - It is recommended you create a new account from [https://console.ng.bluemix.net/] (https://console.ng.bluemix.net/) especially if you have not created this account in the last few days.
-
-##Lab software
-The software including the instructions is available from [https://github.com/ragsns/apichol] (https://github.com/ragsns/apichol). Install the software locally on your laptop by running the followng command.
-
-```
-git clone https://github.com/ragsns/apichol
-```
-
-If the lab software has already been installed (you should be able to see a subdirectory named `apichol`) ensure that you have the latest updates by issuing the following command.
-
-```
-cd apichol
-git pull
-```
-
-### Ensure that you are in the right sub-directory
-
-Ensure that you are in sub-directory ex1.
-
-```
-cd <path-to-hol-folder>/exercises/ex1
-```
-
-### Overview of exercise
-
-In this exercise, we will target a Bluemix Cloud Foundry instance using the Bluemix ID you created and invoke the API Connect service locally.
-
-### Target the Bluemix instance
-
-Target the Bluemix Cloud Foundry instance by substituting the URL with the one provided and use the following command. 
+Para región Americas, usamos este comando de la CLI de Cloud Foundry
 
 ```
 cf api https://api.ng.bluemix.net # to Americas
 ```
-**OR**
-
-```
-cf api https://api.eu-gb.bluemix.net # to Europe
-```
-
-
-The output for the `cf` CLI should look something like below.
+La salida debe lucir como esto
 
 ```
 Setting api endpoint to https://api.ng.bluemix.net...
 OK
 
-                   
-API endpoint:   https://api.ng.bluemix.net (API version: 2.27.0)   
+api endpoint:   https://api.ng.bluemix.net
+api version:    2.92.0
 Not logged in. Use 'cf login' to log in.  
 ```
 
-Login to the instance as directed.
+Hagamos Login a la instancia usando este comando.
 
 ```
 cf login
 ```
 
-Substitute the **non-expired** Bluemix account that was created earlier as below.
+El resultado debería lucir de esta forma
 
 ```
 API endpoint: https://api.ng.bluemix.net
 
-Email> <your IBM ID>
+Email> <Tu Id de IBM>
 
-Password> 
+Password>
 Authenticating...
 OK
 
-Targeted org raghsrin@us.ibm.com
+Targeted org <Nombre de organización>
 
-Targeted space dev
+Targeted space <Nombre del espacio>
 
 
-                   
-API endpoint:   https://api.ng.bluemix.net (API version: 2.27.0)   
-User:           raghsrin@us.ibm.com   
-Org:            raghsrin@us.ibm.com   
-Space:          dev
+
+API endpoint:   https://api.ng.bluemix.net (API version: 2.92.0)
+User:           <Tu Id de IBM>
+Org:            <Nombre de organización>
+Space:          <Nombre del espacio>
 ```
 
+En caso de que el espacio esté en blanco, sigamos estas instrucciones; de lo contrario avancemos al paso 2
 
-List the spaces with the following command
+Listemos los espacios usando este comando
 
 ```
 cf spaces
 ```
 
-The output will look something line below.
+El resultado debe ser algo como esto
 
 ```
-Getting spaces in org raghsrin@us.ibm.com as raghsrin@us.ibm.com...
+Getting spaces in org <Nombre de la Organización> as <IBM Id>...
 
-name   
-dev
+name
+<Nombre del espacio>
 ```
 
-If there are no space(s) listed, then create a space `dev` with the following command.
+En caso de no tener espacios en la lista, creemos un espacio con el nombre `dev` usando este comando
 
 ```
 cf create-space dev
 ```
 
-The output will look something like below.
+La salida debe lucir como esto
 
 ```
-Creating space dev in org raghsrin@us.ibm.com as raghsrin@us.ibm.com...
+Creating space dev in org <Nombre de la Organización> as <IBM id>...
 OK
-Assigning role SpaceManager to user raghsrin@us.ibm.com in org raghsrin@us.ibm.com / space dev as raghsrin@us.ibm.com...
+Assigning role SpaceManager to user <IBM Id> in org <Nombre de la Organización> / space dev as <IBM id>...
 OK
-Assigning role SpaceDeveloper to user raghsrin@us.ibm.com in org raghsrin@us.ibm.com / space dev as raghsrin@us.ibm.com...
+Assigning role SpaceDeveloper to user <IBM id> in org <Nombre de la Organización> / space dev as <IBM id>...
 OK
 
 TIP: Use 'cf target -o raghsrin@us.ibm.com -s dev' to target new space
 ```
 
-Issue the command as provided in `TIP` above as below to target the newly created space (if required).
+Asignemos el espacio a nuestra instancia de Cloud Foundry usando el comando:
 
 ```
-cf target -o <your IBM ID at signup> -s dev
+cf target -o <IBM Id> -s <Nombre del espacio en lista o dev si lo creaste>
 ```
 
-The output will look something like below.
+La salida debe lucir como esta:
 
 ```
-API endpoint:   https://api.ng.bluemix.net (API version: 2.27.0)   
-User:           raghsrin@us.ibm.com   
-Org:            raghsrin@us.ibm.com   
-Space:          dev  
+API endpoint:   https://api.ng.bluemix.net (API version: 2.92.0)
+User:           <Tu Id de IBM>
+Org:            <Nombre de organización>
+Space:          <dev o el nombre del espacio listado previamente>
 ```
+
+### Paso 2: Creemos nuestro primer "Hola Mundo!"
 
 List the apps by issuing the following command.
 
