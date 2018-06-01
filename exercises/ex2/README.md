@@ -32,7 +32,7 @@ La especificación de OpenAPI (Conocida anteriormente como Swagger) es el están
 - Formato: Los archivos que describen APIs RESTful, de acuerdo a las especificaciones OpenAPI, son representados como **Objetos JSON** bajo los estándares JSON. YAML, siendo un superconjunto de JSON, es usado para representar especificaciones de OpenAPI.
 - Beneficios: OpenAPI permite generar librerias cliente para un sin número de *runtimes*, generar servidores *stub*, importar definiciones en herramientas de gestión de APIs y herramientas para validar conformidad de las configuraciones.
 
-#### Paso 2: Manipulemos una especificación OpenAPI
+#### Paso 2: Manipulemos una especificación OpenAPI en el editor de swagger
 
 Para efectos de edición de Swaggers, usaremos una herramienta gratuita en el web que nos permitirá dar una mirada a la especificación
 
@@ -86,7 +86,7 @@ Explorando el JSON en el editor, podrás ver que se especifican una variedad de 
 - Respuestas (200, 400, 404, ...)
 - Parámetros
 - Rutas
--*content-types* (application/json, application/xml, ...)
+- *content-types* (application/json, application/xml, ...)
 
 Ahora bien, descarguemos nuestro swagger modificado.
 
@@ -94,29 +94,31 @@ Ahora bien, descarguemos nuestro swagger modificado.
 
 El swagger editor es una buena herramienta para modificar especificaciones OpenAPI y, también, para crear especificaciones desde cero.
 
-#### Paso3: ?????
+#### Paso 3: Diseño de APIs usando el Desginer de API Connect
 
-To open the API Designer, on the command line enter:
+Abramos el designer usando la siguiente línea de comandos (Windows):
 
 ```
-SKIP_LOGIN=true apic edit
+set SKIP_LOGIN=true
+apic edit
 ```
 
-This should result in the API Designer opening within your default web browser.
+Ahora importemos la definición de nuestra API en la herramienta.  Para ello, hagamos click en **+ Add** y seleccionemos "Import OpenAPI"
 
-Our next step is to import the OpenAPI specification into API Designer.  To accomplish this, click on the **+ Add** link and select the Import OpenAPI choice
-<br/><br/>
 ![importopenapi](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/importopenapi.png)
 
-You will want to browse to the location where you downloaded the swagger.json file created from Swagger editor and click on the **Import** button.
+Posteriormente a la carga de la especificación, se cargan datos en la pestaña de "Design" como se aprecia en esta captura de pantalla
 
-This should cause focus on the API Design tab with various fields populated via data found within the OpenAPI specification file.  Feel free to explore the various section links on the left to get a feel for design options available to you.
-<br/><br/>
 ![apidesignview](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/apidesignview.png)
 
-It is also worth noting that if you already possess an existing backend API application, you can publish this Open API (Swagger) specification to Bluemix whereby the platform would then manage your existing APIs for you.  Platforms such as Bluemix are great at providing analytics, gateway, security, authentication and user management facilities for your API needs.
+Esta herramienta nos permite diseñar APIs desde una interfaz gráfica, a diferencia del Swagger Editor. Ambos nos ofrecen dos acercamientos según sean los gustos del desarrollador.
 
-### Summary of exercise and next steps
+### Resumen del Ejercicio
+
+Hemos dado dos pasos importantes en la tarea de crear / mantener APIs. Conocimos dos herramientas para poder trabajar con las especificaciones de OpenAPI:
+- Swagger Editor: Enfocada para desarrolladores que prefieren escribir JSON por ellos mismos
+- API Connect Designer: 
+
 We've now learned quite a bit.  We know what an Open API (Swagger) specification is, how its used and what is its composition.  We've explored a couple of tools that assist us with Open API design, composition and management.
 
 In [Exercise 3](../ex3), we'll create a Loopback Application against these defined APIs.  Having a backend application takes the conceptual descriptions within the spec and makes them concrete (e.g. Functional Create, Read, Update and Delete API endpoints).
