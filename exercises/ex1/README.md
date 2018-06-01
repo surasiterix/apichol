@@ -12,7 +12,7 @@ git clone https://github.com/surasiterix/apichol
 
 Se debió crear un directorio llamado `apichol` donde están todos los contenidos de este laboratorio.
 
-** Asegurate de estar en el directorio correcto
+**Asegurate de estar en el directorio correcto
 
 ```
 cd <Ruta al labotario>/apichol/exercises/ex1
