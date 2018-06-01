@@ -102,13 +102,13 @@ OK
 Assigning role SpaceDeveloper to user <IBM id> in org <Nombre de la Organización> / space dev as <IBM id>...
 OK
 
-TIP: Use 'cf target -o raghsrin@us.ibm.com -s dev' to target new space
+TIP: Use 'cf target -o <Nombre de la Organización> -s dev' to target new space
 ```
 
 Asignemos el espacio a nuestra instancia de Cloud Foundry usando el comando:
 
 ```
-cf target -o <IBM Id> -s <Nombre del espacio en lista o dev si lo creaste>
+cf target -o <Nombre de la Organización> -s <Nombre del espacio en lista o "dev" si tuvista que crearlo>
 ```
 
 La salida debe lucir como esta:
@@ -120,7 +120,9 @@ Org:            <Nombre de organización>
 Space:          <dev o el nombre del espacio listado previamente>
 ```
 
-### Paso 2: Creemos nuestro primer "Hola Mundo!"
+### Paso 2: Creemos nuestro primer "Hola Mundo!" (Opcional)
+
+Veamos las aplicationes que tenemos asociadas a nuestro espacio en Cloud Foundry. Ejecutemos este comando
 
 List the apps by issuing the following command.
 
@@ -131,83 +133,75 @@ cf apps
 The output will look something like below.
 
 ```
-Getting apps in org raghsrin@us.ibm.com / space dev as raghsrin@us.ibm.com...
+Getting apps in org <Nombre de la Organización> / space <Nombre del espacio en lista o "dev" si tuvista que crearlo> as <Tu Id de IBM>...
 OK
 
 No apps found
 ```
+Ahora crearemos nuestro `hola-mundo` usando API Connect. Los pasos a realizar son:
 
-Next we will create a simple `hello-world` project using API Connect.
+#### Crear aplicación LoopBack
 
-### Create a "hello world" API connect project
-
-Create a Loopback application. Pick the defaults except as noted below.
+Para ello ejecutaremos el siguiente comando. Seleccionaremos los valores por defecto con excepción de la nota siguiente al comando 
 
 ```
 apic loopback --name notes
 ```
 
-Pick the defaults except for the sample application notes instead of the default option.
+En la siguiente pregunta, seleccionaremos la opción marcada con ">". Para ello, mueve el cursor hasta esa opción y pulsa "enter"
 
 ```
-? What kind of application do you have in mind? notes (A project containing a basic working example, including a memor
-y database)
+? What kind of application do you have in mind?
+  empty-server (An empty LoopBack API, without any configured models or datasources)
+  hello-world (A project containing a controller, including a single vanilla Message and a single remote method)
+> notes (A project containing a basic working example, including a memory database)
 ```
 
-Change to the project directory
+Entremos al directorio de nuestra primera aplicación
 
 ```
 cd notes
 ```
 
-Start the API connect services locally
+Iniciamos nuesrtra aplicación, en este caso se ejecutará local en nuestra instalación de Node.js
 
 ```
 apic start
 ```
 
-Ensure the service is running via the command
+Asegurate que este corriendo accediendo al siguiente enlace con tu navegador.
 
 ```
-curl -l localhost:4001
+http://localhost:4001
 ```
 
-Which should display how long the service has been running
-
-You can try other options as available in the following command
+El resultado debe ser un JSON donde se indica la fecha y tiempo arriba de nuestra app. Ejemplo:
 
 ```
-apic --help
+{"started":"2018-06-01T13:26:33.266Z","uptime":96.596}
 ```
 
-You can explore further by invoking the following command
+Ahora accedamos a el editor de APIs de API Connect. Es recomendable que carguemos una variable de entorno para no realizar login. Para Windows, escribamos el siguiente comando
 
 ```
-SKIP_LOGIN=true apic edit
+set SKIP_LOGIN=true
+```
+Ahora accedamos al editor de APIs usando este comando
+
+```
+apic edit
 ```
 
-This will launch the API connect GUI in the default browser. You will have to override the certificates manually. For now, feel free to wander around. We will take a more formal guided tour in the subsequent exercise.
+Esta es la GUI para edición de APIs. Más adelante exploraremos esta herramienta, de momento sientete libre de navegar en el editor para familirizarte con la interfaz. 
 
-Finally, you can stop the service as below.
+Ahora, detengamos el editor de APIs con este comando
 
 ```
 apic stop
 ```
 
-Which should show the service being stopped.
+### Resumen del ejercicio
 
-You can clean up by deleting the sub-directory if you prefer.
+Felicitaciones! Acabas de aprender como hacer setup de tu ambiente para crear APIs: Referenciar tu instancia de Cloud Foundry en IBM Cloud y usar API Connect local.
 
-```
-cd ..
-rm -rf notes
-```
-
-We will dive into API Connect in the subsequent exercises.
-
-### Summary of exercise and next steps
-
-After installing all the prerequisites, we explored how to target a Bluemix/Cloud Foundry instance and use the API connect product locally.
-
-In [Exercise 2](../ex2) we will look at how to use the OpenAPI specification (swagger) editor.
-
+En el próximo ejercicio [Ejercicio 2](../ex2) aprenderemos a usar la especificación de OPenAPI (Swagger).
