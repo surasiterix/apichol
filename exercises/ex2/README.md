@@ -4,9 +4,9 @@
 
 ### Prerrequisitos
 
-**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)
+**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)**
 
-**Asegurarte que estés en el directorio correcto para el ejercicio ("ex2")
+**Asegurarte que estés en el directorio correcto para el ejercicio ("ex2")**
 
 ```
 cd <Ruta al laboratorio>/apichol/exercises/ex2
@@ -42,13 +42,13 @@ http://editor.swagger.io
 
 En el directorio del ejercicio, importatemos en el editor el archivo ``macreduce.mybluemix.net.yaml``
 
-![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/swaggerspec_import.png)
+![swagger](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/swaggerspec_import.png)
 
-![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/importfile.png)
+![swagger](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/importfile.png)
 
 El YAML es cargado en el editor. Podemos ver que tenemos un panel en la izquierda donde podemos ver el JSON y en la derecha la representación del Swagger.
 
-![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/macreduce.png)
+![swagger](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/macreduce.png)
 
 Haremos una modificación para agregar una respuesta a nuestra API. Busquemos, en el JSON, el siguiente texto.
 
@@ -90,7 +90,7 @@ Explorando el JSON en el editor, podrás ver que se especifican una variedad de 
 
 Ahora bien, descarguemos nuestro swagger modificado.
 
-![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/downloadjson.png)
+![swagger](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/downloadjson.png)
 
 El swagger editor es una buena herramienta para modificar especificaciones OpenAPI y, también, para crear especificaciones desde cero.
 
@@ -106,13 +106,13 @@ This should result in the API Designer opening within your default web browser.
 
 Our next step is to import the OpenAPI specification into API Designer.  To accomplish this, click on the **+ Add** link and select the Import OpenAPI choice
 <br/><br/>
-![importopenapi](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/importopenapi.png)
+![importopenapi](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/importopenapi.png)
 
 You will want to browse to the location where you downloaded the swagger.json file created from Swagger editor and click on the **Import** button.
 
 This should cause focus on the API Design tab with various fields populated via data found within the OpenAPI specification file.  Feel free to explore the various section links on the left to get a feel for design options available to you.
 <br/><br/>
-![apidesignview](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/apidesignview.png)
+![apidesignview](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/apidesignview.png)
 
 It is also worth noting that if you already possess an existing backend API application, you can publish this Open API (Swagger) specification to Bluemix whereby the platform would then manage your existing APIs for you.  Platforms such as Bluemix are great at providing analytics, gateway, security, authentication and user management facilities for your API needs.
 
