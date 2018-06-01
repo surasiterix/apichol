@@ -1,51 +1,57 @@
-#API Connect Hands-On Labs
+# API Connect Hands-On Labs
 
-##Exercise 2: Design your OpenAPI Swagger specification
+## Ejercicio 2: Diseñar especificaciones swagger OpenAPI
 
-### Prerequisites
+### Prerrequisitos
 
-Make sure you've met the following prerequisites.
+**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)
 
-**Prerequisite 1**: Installed the API Connect toolkit ([Exercise 1](../ex1)).
-
-### Ensure that you are in the right sub-directory
-
-Ensure that you are in sub-directory ex2.
+**Asegurarte que estés en el directorio correcto para el ejercicio ("ex2")
 
 ```
-cd <path-to-hol-folder>/exercises/ex2
+cd <Ruta al laboratorio>/apichol/exercises/ex2
 ```
 
-### Overview of exercise
+### Sumario del ejercicio
 
-For this exercise, we'll:
+En este ejericio haremos.:
 
-1. Learn about the OpenAPI Specification (Swagger Specification) 2.0 and its components
-2. Learn how to use Swagger Editor to design and modify an existing Swagger JSON specification of an API
-3. Learn how to import an OpenAPI Specification into API Designer for further editing
+1. Aprender acerda de la especificación de OpenAPI 3.0 (Conocida mayormente como Swagger) y sus componentes
+2. Aprender a usar el editor de Swagger para diseñar y modificar especificaciones JSON de un API
+3. Aprender a importar una especificación OpenAPI (Swagger) en API Designer para posteriores ediciones
 
-### [OpenAPI](https://github.com/OAI/OpenAPI-Specification) (Current Version: 2.0)
-The Open API Specification (formerly known as the Swagger specification) is the industry standard for defining REST APIs.  The goal of the OpenAPI Specification is to define a standard, language-agnostic interface to REST APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
+### Paso 1: Introducción a OpenAPI y sus componentes
 
-<blockquote>OpenAPI specs remove the guesswork in calling a given service</blockquote>
+#### [OpenAPI](https://github.com/OAI/OpenAPI-Specification) (Versión actual: 3.0.1)
+La especificación de OpenAPI (Conocida anteriormente como Swagger) es el estándar de la industria para definir APIs REST. El objetivo de esta especificación es que sea estándar e independiente de lenguajes de programación para permitir, tanto a humanos como a computadoras, descubrir y entender las capacidades del servicio sin necesidad de acceder al código fuente, documentación o por inspección del tráfico de red. Un buena implementación, vía OpenAPI, es aquella que un consunidor de servicios puede entender e interacturar con ella con una mínima lógica de implementación.
 
-#### [OpenAPI Components](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
+<blockquote>Las especifiaciones de OpenAPI remueven la labor de adivinar como se invocan los servicios</blockquote>
 
-- FORMAT:  The files describing the RESTful API in accordance with the Swagger specification are represented as **JSON objects** and conform to the JSON standards. YAML, being a superset of JSON, can be used as well to represent a Swagger specification file.
-- BENEFITS:  With a OpenAPI specifcation, you'll be able to generate client libraries in lots of runtime languages, generate server stubs, import these definitions into API management tools such as Bluemix APIConnect and use tools to verify conformance. 
+#### [Componentes de OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md)
 
-### [Swagger Editor](http://editor.swagger.io/#/)
-Swagger Editor at [http://editor.swagger.io/#/](http://editor.swagger.io/#/) is a handy open source web application that lets you quickly edit OpenAPI Swagger specifications in YAML or JSON.  You can import or create custom specifications within a browser.  We'll use this hosted editor and a Swagger JSON specification **macreduce.mybluemix.net.json** located within the ex2 sub-directory to illustrate the use of the editor and how it can be used to design/modify a Swagger specification.
+- Formato: Los archivos que describen APIs RESTful, de acuerdo a las especificaciones OpenAPI, son representados como **Objetos JSON** bajo los estándares JSON. YAML, siendo un superconjunto de JSON, es usado para representar especificaciones de OpenAPI.
+- Beneficios: OpenAPI permite generar librerias cliente para un sin número de *runtimes*, generar servidores *stub*, importar definiciones en herramientas de gestión de APIs y herramientas para validar conformidad de las configuraciones.
 
-#### Exploring an OpenAPI (Swagger) 2.0 Specification
+#### Paso 2: Manipulemos una especificación OpenAPI
 
-1.  Browse to [Swagger Editor](http://editor.swagger.io/#/) and click on the File menu choice **Import File...** .  You will select the macreduce.mybluemix.net.yaml file found within your ex2 sub-directory.     <br/><br/>     ![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/swaggerspec_import.png)
+Para efectos de edición de Swaggers, usaremos una herramienta gratuita en el web que nos permitirá dar una mirada a la especificación
 
-    ![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/importfile.png) 
-2.  After import, you should see a split pane view with the raw text Swagger spec on the left and a rendered view on the right. <br/>
-    
-    ![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/macreduce.png) 
-3.  We will now make a modification to the existing swagger specification.  Browse to the section of the spec that looks similiar to: 
+```
+http://editor.swagger.io
+```
+
+En el directorio del ejercicio, importatemos en el editor el archivo ``macreduce.mybluemix.net.yaml``
+
+![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/swaggerspec_import.png)
+
+![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/importfile.png)
+
+El YAML es cargado en el editor. Podemos ver que tenemos un panel en la izquierda donde podemos ver el JSON y en la derecha la representación del Swagger.
+
+![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/macreduce.png)
+
+Haremos una modificación para agregar una respuesta a nuestra API. Busquemos, en el JSON, el siguiente texto.
+
 ```
   '/mac/{macId}':
       get:
@@ -58,8 +64,7 @@ Swagger Editor at [http://editor.swagger.io/#/](http://editor.swagger.io/#/) is 
             name: macId
   [...]
 ```
-
-We will add an expected response to document the API's behavior when attempting to fetch a non-existent macId resource.  Add two lines just above the parameters section so that it now looks like this:
+Agregaremos una respuesta HTTP/404 - Documento no encontrado 
 
 ```
   '/mac/{macId}':
@@ -75,18 +80,21 @@ We will add an expected response to document the API's behavior when attempting 
             name: macId
  [...]
 ```
-  The specification provides a wide variety of data elements to facilitate describing your API set.  As you inspect your OpenAPI specification file, some important elements to consider include: 
 
-  -  method types (get, post, delete, ...)
-  -  responses (200, 400, 404, ...)
-  -  parameters
-  -  paths
-  -  content-types (application/json, application/xml, ...)
+Explorando el JSON en el editor, podrás ver que se especifican una variedad de elementos. Si se quiere, podemos resumirlos en:
+- Tipos de método (get, post, delete, ...)
+- Respuestas (200, 400, 404, ...)
+- Parámetros
+- Rutas
+-*content-types* (application/json, application/xml, ...)
 
-4.  Click on the File menu choice **Download JSON** to obtain a local copy of your newly modified OpenAPI Swagger 2.0 specification.     <br/><br/>     ![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/downloadjson.png) 
-5.  As you can see, Swagger Editor is a great tool for modifying existing OpenAPI specifications and/or creating brand new specifications.  
+Ahora bien, descarguemos nuestro swagger modificado.
 
-### [Open API Spec Explorer and Designer](https://console.ng.bluemix.net/docs/services/apiconnect/apic_003.html#apic_009)
+![swagger](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex2/downloadjson.png)
+
+El swagger editor es una buena herramienta para modificar especificaciones OpenAPI y, también, para crear especificaciones desde cero.
+
+#### Paso3: ?????
 
 To open the API Designer, on the command line enter:
 
