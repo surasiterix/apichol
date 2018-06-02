@@ -6,7 +6,7 @@
 
 **Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)**
 
-**Asegurarte que estés en el directorio correcto para el ejercicio ("ex2")**
+**Asegúrate que estés en el directorio correcto para el ejercicio ("ex2")**
 
 ```
 cd <Ruta al laboratorio>/apichol/exercises/ex2
