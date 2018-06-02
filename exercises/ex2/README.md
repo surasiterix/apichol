@@ -103,7 +103,7 @@ set SKIP_LOGIN=true
 apic edit
 ```
 
-Ahora importemos la definición de nuestra API en la herramienta.  Para ello, hagamos click en **+ Add** y seleccionemos "Import OpenAPI"
+Ahora importemos la definición de nuestra API en la herramienta.  Para ello, hagamos click en **+ Add** y seleccionemos "Import API from a file or URL"
 
 ![importopenapi](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex2/importopenapi.png)
 
@@ -117,8 +117,6 @@ Esta herramienta nos permite diseñar APIs desde una interfaz gráfica, a difere
 
 Hemos dado dos pasos importantes en la tarea de crear / mantener APIs. Conocimos dos herramientas para poder trabajar con las especificaciones de OpenAPI:
 - Swagger Editor: Enfocada para desarrolladores que prefieren escribir JSON por ellos mismos
-- API Connect Designer: 
+- API Connect Designer: Enfocada para desarrolladores que prefieren un ambiente gráfico
 
-We've now learned quite a bit.  We know what an Open API (Swagger) specification is, how its used and what is its composition.  We've explored a couple of tools that assist us with Open API design, composition and management.
-
-In [Exercise 3](../ex3), we'll create a Loopback Application against these defined APIs.  Having a backend application takes the conceptual descriptions within the spec and makes them concrete (e.g. Functional Create, Read, Update and Delete API endpoints).
+En el [Ejercicio 3](../ex3) crearemos una aplicación LoopBack basado en la API que definimos. Esta imlementará los endpoints de la API (Crear, Leer, Actualizar y eliminar)
