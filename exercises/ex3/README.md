@@ -1,95 +1,98 @@
-#API Connect Hands-On Labs
+# API Connect Hands-On Labs
 
-##Exercise 3: Generate a LoopBack application and import your APIs
+## Ejercicio 3: Generar aplicaciones LoopBack e importar APIs
 
-### Prerequisites
+### Prerrequisitos
 
-Make sure you've met the following prerequisites.
+**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)
 
-**Prerequisite 1** Installed the API Connect toolkit ([Exercise 1](../ex1))
-
-### Ensure that you are in the right sub-directory
-
-Ensure that you are in sub-directory ex3.
+**Asegúrate que estés en el directorio correcto para el ejercicio ("ex3")**
 
 ```
-cd <path-to-hol-folder>/exercises/ex3
-```
-### Overview of exercise
-
-In this exercise, we'll:
-
-1. Learn about how to create a LoopBack application
-2. Learn how to consume an OpenAPI specification and shape a backend LoopBack application's behavior
-3. Learn how to implement basic behavior around the imported API design
-
-### [LoopBack API](https://console.ng.bluemix.net/docs/services/apiconnect/apic_003.html#apic_009)
-
-We'll first make an empty project directory to contain all of our work for exercise 3.
-
-```
-mkdir -p ./loopbackapp
+cd <Ruta al laboratorio>\apichol\exercises\ex3
 ```
 
-Next, navigate within the empty loopbackapp folder by typing the following:
+### Sumario del ejercicio
+
+En este  ejercicio haremos:
+
+1. Cómo crear una apliación usando LoopBack
+2. Cómo consumir especifiaciones OpenAPIs para dar forma al comportamiento a nuestra aplicación LoopBack
+3. Cómo implementar el comportamiento básico alrededor del diseño de la API
+
+
+### Paso 1: Crear una [API LoopBack](https://console.bluemix.net/docs/services/apiconnect/creating_apis.html#create_lb_api)
+
+Primero construiremos un directorio para nuestro proyecto de API
+
+```
+mkdir loopbackapp
+```
+Ahora, accedamos al direcotrio creado
 
 ```
 cd loopbackapp
 ```
 
-Next, we'll leverage the **apic** binary to create a Loopback Application project.
-Execute the following command line syntax:
+Ahora construiremos nuestra aplicación usando API Connect, ejecutemos el siguiente comando
 
 ```
 apic loopback
 ```
-You'll want to give your application a name and select the **empty-server** option to create an empty LoopBack API.<br/>  
-![empty server](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/emptyserver.png "Empty Server")
 
-This should result in a parade of files being generated within the folder that represents a skeleton LoopBack application.  Next, we'll create an in-memory db datastore.  This db datastore is required to help us test our new Loopback application -- specifically for create operations which use HTTP POST and PUT method calls.  Without a datastore, our application will have no default place to store data sent to it.
+Configuraremos nuestra aplicación usando la opción *Empty-server*
 
-Execute the following command:
+![empty server](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/emptyserver.png "Empty Server")
+
+Estos pasos han creado el esqueleto de nuestra aplicación LoopBack. Ahora crearemos una base de datos en memoria. Esta base de datos nos ayudará a probar nuestra aplicación.
+
+### Paso 2: Crear un conector a base de datos 
+
+Ejecutaremos el siguiente comando:
 
 ```
 apic create --type datasource
 ```
+Los pasos para configurar el *dataosource* son los siguientes:
 
-You'll be prompted for:
+1. Nombre del datasource: **db**
+2. Conector para la base de datos: **In-memory db**
+3. window.localStorage key for persistence: Presiona Enter
+4. Full path for file persistence: Persiona Enter
 
-1.  A data-source name.  Enter **db**.
-2.  A connector for the db:  select the default selection of **In-memory db**.  
-3.  A window.localStorage key for persistence. Accept the default of blank.
-4.  A full path to file for persistence.  Accept the default of blank. 
-
-This will update your applications definition file with this new datasource.
+Esto gernerará las especificaciones necesarias para configurar la base de datos a nuestra aplicación LoopBack
 
 ![newdatasource](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/newdatasource.png "New Datasource")
 
-Next, we'll import our OpenAPI specification from exercise 2 to shape this application.   To prepare for this, copy the downloaded OpenAPI spec json file obtained from Swagger Editor and place it within the ex3 sub-directory.  As an alternative, you can also copy an unmodified swagger spec file by executing the following command:
+### Paso 3: Carga del Swagger para nuestra API 
+
+Ahora, copiaremos la especificación swagger que trabajamos en el [ejercicio 2](../ex2)
 
 ```
-cp ../../ex2/macreduce.mybluemix.net.json ../swagger.json
+copy ..\..\..\ex2\macreduce.mybluemix.net.json ..\swagger.json
 ```
 
-Execute the following command:
+Ejecutar el siguiente comando:
 
 ```
 apic loopback:swagger
 ```
 
-A series of menu prompts will display:
+Configuraremos nuestro swagger en la aplicación:
 
-1.  Prompt: A local path or remote url to your OpenAPI specification file.  
-    Response: Enter a path to the json file that you copied in an earlier step (e.g. **../swagger.json**).
-2.  Prompt: Selection of the models to be generated.  
-    Response:  You'll select the default of **swagger_api_v1**.
-3.  Prompt: Selection of the data-source to attach models to.  
-    Response: You'll select the default of **db (memory)**
+1. Enter the swagger spec url or file path: **../swagger.json**
+2. Select models to be generated: **swagger_api_v1**
+3. Select the data-source to attach models to: **db (memory)**
   
-
 ![swaggershaping](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/swaggershaping.png "Swagger Shaping")
 
+Con estos pasos hemos asociado la base de datos en nuestro modelo de aplicación.
+
+### Paso 4: Carga del Swagger para nuestra API 
+
 Next, you'll confirm that our datasource is attached to our model using the API Design and Management User interface which exposes concepts such as the underlying API model and registered datasources.  To do this, let's jump into the API Design and Management UI by executing the following command:
+
+
 
 ```
 apic edit
