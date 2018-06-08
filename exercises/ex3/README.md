@@ -18,9 +18,9 @@ cd <Ruta al laboratorio>\apichol\exercises\ex3
 
 En este  ejercicio haremos:
 
-1. Cómo crear una apliación usando LoopBack
-2. Cómo consumir especifiaciones OpenAPIs para dar forma al comportamiento a nuestra aplicación LoopBack
-3. Cómo implementar el comportamiento básico alrededor del diseño de la API
+1. Crear una apliación usando LoopBack
+2. Consumir especifiaciones OpenAPIs para dar forma al comportamiento a nuestra aplicación LoopBack
+3. Implementar el comportamiento básico alrededor del diseño de la API
 
 
 ### Paso 1: Crear una [API LoopBack](https://console.bluemix.net/docs/services/apiconnect/creating_apis.html#create_lb_api)
@@ -30,6 +30,7 @@ Primero construiremos un directorio para nuestro proyecto de API
 ```
 mkdir loopbackapp
 ```
+
 Ahora, accedamos al direcotrio creado
 
 ```
@@ -126,10 +127,10 @@ copy ..\..\swagger-api-v-1.js.uncommented server\models\swagger-api-v-1.js
 
 Una vez reemplazado el archivo, tendremos disponible la implementación parcial de 4 métodos para nuestra API
 
-- **GET** y **POST** on  `/mac`
-- **GET** y **DELETE** `/mac/{macId}`
+- **GET** y **POST** en  `/mac`
+- **GET** y **DELETE** en `/mac/{macId}`
  
- Te invito a que le des una mirada a la versión comentanda del controlador en el directorio del ejercicio (`../swagger-api-v-1.js.commented`) para que puedas contrastar los cambios de la implementación que estamos usando.
+ Te invito a que le des una mirada a la versión comentanda del controlador en el directorio del ejercicio (`..\..\swagger-api-v-1.js.commented`) para que puedas contrastar los cambios de la implementación que estamos usando.
  
 ### Paso 5: Ejecutemos nuetra primera API! 
  
@@ -155,7 +156,7 @@ While it continues to run, let's now fetch a record associated with an ID=2.  Na
 
 Excelente! Logramos crear nuetra primera API funcional, creamos registros usando POST e hicimos una consulta usando GET. Buen trabajo!
 
-###Resumen del ejercicio
+### Resumen del ejercicio
 
 Hemos realizado un paseo por el proceso para crear una API REST, usando Loopback, a través de una especificacion OpenAPI (swagger). Aplicamos las modificaciones para incorporar una base de datos y modificar el controlador de nuestra aplicación para implementar algunos métodos.
 
