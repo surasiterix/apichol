@@ -4,7 +4,9 @@
 
 ### Prerrequisitos
 
-**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)
+**Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)**
+
+**Instalar [cURL](https://curl.haxx.se/). No olvides agregar al _path_ la ruta donde está el ejecutable de cURL**
 
 **Asegúrate que estés en el directorio correcto para el ejercicio ("ex3")**
 
@@ -62,7 +64,7 @@ Los pasos para configurar el *dataosource* son los siguientes:
 
 Esto gernerará las especificaciones necesarias para configurar la base de datos a nuestra aplicación LoopBack
 
-![newdatasource](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/newdatasource.png "New Datasource")
+![newdatasource](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/newdatasource.png "New Datasource")
 
 ### Paso 3: Carga del Swagger para nuestra API 
 
@@ -80,100 +82,81 @@ apic loopback:swagger
 
 Configuraremos nuestro swagger en la aplicación:
 
-1. Enter the swagger spec url or file path: **../swagger.json**
-2. Select models to be generated: **swagger_api_v1**
-3. Select the data-source to attach models to: **db (memory)**
+1. Colocaremos la ruta y nombre de nuestro swagger: **../swagger.json**
+2. Elegiremos el modelo a ser generado: **swagger_api_v1**
+3. Seleccionaremos el _data source_ a emplear para nuestro modelo: **db (memory)**
   
-![swaggershaping](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/swaggershaping.png "Swagger Shaping")
+![swaggershaping](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/swaggershaping.png "Swagger Shaping")
 
 Con estos pasos hemos asociado la base de datos en nuestro modelo de aplicación.
 
-### Paso 4: Carga del Swagger para nuestra API 
+### Paso 4: Validación de nuestro modelo en API Connect 
 
-Next, you'll confirm that our datasource is attached to our model using the API Design and Management User interface which exposes concepts such as the underlying API model and registered datasources.  To do this, let's jump into the API Design and Management UI by executing the following command:
-
-
+El siguiente paso es confirmar que nuestro modelo esté configurado correctamente, para ello emplearemos el editor de APIs de API Connect. Esta herramienta nos presentará la configuración subyacente del modelo así como los _data sources_ registrados. Ejecutemos el siguiente comando para hacer la validación:
 
 ```
 apic edit
 ```
-This should result in the API Design and Management UI opening within your default web browser.  You'll need to sign in with your Bluemix account and browse to the Models tab ...
 
-![Models Tab](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/editmodel.png "Models tab")
+En la interfaz veremos nuestra API en el listado. Ahora, accederemos a la pestaña de "Modelos" para ver el modelo asociado a nuestra API
 
-and click on our model named `swagger_api_v1`.  This will open the properties view for the model.  Click the dropdown arrow and select the datasource **db**.  Hit the **save icon** in the upper right of the window and then close the browser tab.  You'll also need to break out of the running `apic edit` process within the terminal.
+![Models Tab](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/editmodel.png "Models tab")
 
-![New Datasource](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/setdatasource.png "New Datasource")
+Hacer click en el modelo `swagger_api_v1`. Esto abrirá una ventana con las propiedades del modelo. En el campo "Data Source", eligiremos de la lista desplegable el valor **"db"**. Bien, ahora presionaremos el ícono salvar que se ubica en la esquina superior derecha. Al recibir la confirmación de que se han salvado los cambios, cerraremos la ventana del navegador. Tabién hará falta terminar el proceso al ejecutar `apic edit` (Usemos `ctrl + c`)
 
-Sweet!  We now have a node application with endpoints defined via our OpenAPI specification.  To test, let's fire up the app:
+![New Datasource](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/setdatasource.png "New Datasource")
 
-```
-node .
-```
-
-We'll observe that the application is listening on port 3000.  Using a browser, let's navigate to the following url:  [http://127.0.0.1:3000/api/api/v1/mac](http://127.0.0.1:3000/api/api/v1/mac) .
-
-###Ughh ... a 500 response error.  
-
-![not implemented](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/notimplemented.png "not implemented")
-
-
-###Wait, that makes total sense.  We've defined endpoints via a spec but have not implemented any logic around the behavior of the resources.  Let's tackle that next. 
-
-Kill your running node process within the terminal and locate the LoopBack application's model controller file **swagger-api-v-1.js**
+Excelente! Ahora escribiremos el código de nuestra API. Para ello, veremos los archivos que componen el controlador de la API. Ejecutemos el siguiente comando:
 
 ```
-ls -al ./server/models/
+dir server\models\*
 
 ```
 
-Within this folder, you'll notice two files:
+Veremos que hay dos archivos:
 
-1. swagger-api-v-1.js : defines implementation logic for the generated stub APIs generated
-2. swagger-api-v-1.json : defines meta properties about the generated API model
+1. swagger-api-v-1.js: Define la lógica de implementación de la API. En este caso es un _stub_ generado.
+2. swagger-api-v-1.json: Define las meta propiedades del modelo. En este caso fue generado en el paso 3
 
-To expedite the logic implementation, a handy uncommented copy of a partially implemented controller file is provided within the ex3 parent folder named **swagger-api-v-1.js.uncommented**.  While in the project folder loopbackapp folder, execute the following command to replace the existing controller with this partial implementation:
+Para acelerar el paso en nuestra labor de implementación, utilizaremos del ejercicio una implementación ya avanzada. Copiemos el archivo **swagger-api-v-1.js.uncommented** con una implementación parcial del controlador.
 
 ```
-cp ../swagger-api-v-1.js.uncommented server/models/swagger-api-v-1.js
+copy ..\..\swagger-api-v-1.js.uncommented server\models\swagger-api-v-1.js
 ```
 
-You'll be prompted to overwrite.  Respond with **y** (yes).
+Una vez reemplazado el archivo, tendremos disponible la implementación parcial de 4 métodos para nuestra API
 
-This partial implementation enables four (4) of the OpenAPI specification entries for 
-
-- **GET** and **POST** on  `/mac`
-- **GET** and **DELETE** `/mac/{macId}`
+- **GET** y **POST** on  `/mac`
+- **GET** y **DELETE** `/mac/{macId}`
  
-If you're curious, we've also provided for comparison and inspection, a commented copy in the ex3 directory. (`../swagger-api-v-1.js.commented`).  
-
-Let's fire up our Loopback Application based on Swagger once again ... and try to populate it with some data.
+ Te invito a que le des una mirada a la versión comentanda del controlador en el directorio del ejercicio (`../swagger-api-v-1.js.commented`) para que puedas contrastar los cambios de la implementación que estamos usando.
+ 
+### Paso 5: Ejecutemos nuetra primera API! 
+ 
+Ahora podremos todo junto. Levantemos el _runtime_ de nuestra API para verla en acción:
 
 ```
 node .
 ```
-In a separate terminal window, issue the following 2 commands:
+
+Una vez arriba, abriremos una nueva ventana de comandos para generar transacciones a nuestra API. Para ello ejecutaremos los siguientes comandos
 
 ```
 curl -X POST -H "Content-Type: application/json" -d "{\"organization\":\"IBM Corporation\",\"hex\":\"74:99:75\",\"base16\":\"749975\"}" "http://localhost:3000/api/api/v1/mac"
 curl -X POST -H "Content-Type: application/json" -d "{\"organization\":\"IBM Corporation\",\"hex\":\"00:09:6B\",\"base16\":\"00096B\"}" "http://localhost:3000/api/api/v1/mac"
 ```
 
-If all went well, you should receive a response within your terminal from your node backend API server that looks similar to:
+Si todo salió bien, debería verse la siguiente respuesta de ejecutar ambos comandos
 
-![Successful Post](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/successfulpost.png "Successful Post")
+![Successful Post](https://raw.githubusercontent.com/surasiterix/apichol/master/images/ex3/successfulpost.png "Successful Post")
 
+Ahora haremos una prueba para consultar el registro asociado al ID=2. Usaremos nuestro navegador empleando esta URL 
+While it continues to run, let's now fetch a record associated with an ID=2.  Navigate your browser to http://localhost:3000/api/api/v1/mac/2
 
-While it continues to run, let's now fetch a record associated with an ID=2.  Navigate your browser to [http://localhost:3000/api/api/v1/mac/2](http://localhost:3000/api/api/v1/mac/2)
+Excelente! Logramos crear nuetra primera API funcional, creamos registros usando POST e hicimos una consulta usando GET. Buen trabajo!
 
-The result should look similar to this:
+###Resumen del ejercicio
 
-![Successful Get](https://raw.githubusercontent.com/ragsns/apichol/master/images/ex3/successfulget.png "Successful Get")
+Hemos realizado un paseo por el proceso para crear una API REST, usando Loopback, a través de una especificacion OpenAPI (swagger). Aplicamos las modificaciones para incorporar una base de datos y modificar el controlador de nuestra aplicación para implementar algunos métodos.
 
-Awesome sauce!  Go ahead and kill the running node process within your terminal and change directories to exercise 5.
-
-###Summary of exericse and next steps
-
-You've now walked through the process of quickly creating a REST API Loopback Application shaped by an OpenAPI (swagger) specification.  You also learned how to modify the generated backend Loopback application to partially implement support for a couple of HTTP method types (GET and POST).
-<p>
-In [Exercise 4](../ex4) we'll learn how to easily create and populate a MySQL database service instance as a building block towards our ultimate goal of establishing API operations that support Create, Read, Update and Delete (CRUD) methods.
+En el [ejericio 4](../ex4) aprenderemos a crear y poblar una base de datos MySQL para que, en los siguientes ejercicios, implmentemos las operaciones CRUD de nuestra API.
