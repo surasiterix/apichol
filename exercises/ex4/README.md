@@ -1,50 +1,41 @@
-#API Connect Hands-On Labs
+# API Connect Hands-On Labs
 
-##Exercise 4: Create a database service on Bluemix
+## Ejericio 4: Crear un servicio de base de datos en IBM Cloud
 
-### Prerequisites
+### Prerrquisitos
 
-Make sure you've met the following prerequisites.
-
-**Prerequisite 1**: Installed the API Connect toolkit and targeted the Bluemix instance ([Exercise 1](../ex1)).
-
-### Ensure that you are in the right sub-directory
-
-Ensure that you are in sub-directory ex4.
+## Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)).
+## Asegúrate que estés en el directorio correcto para el ejercicio ("ex4")
 
 ```
-cd <path-to-hol-folder>/exercises/ex4
+cd <Ruta al laboratorio>/apichol/exercises/ex4
 ```
 
-### Verify your Target within Bluemix instance
-
-Verify your Target within Bluemix Cloud Foundry instance by issuing the following command. 
+### Verifica que tengas definido el Target de Cloud Foundry en tu isntancia de IBM Cloud
 
 ```
 cf target
 ```
 
-The output for the `cf` CLI should look something like below.
+La salida debe ser algo como.
 
 ```
-
-API endpoint:   https://api.ng.bluemix.net (API version: 2.54.0)
-User:           <bluemix_email_id>
-Org:            <bluemix_email_id>
-Space:          dev
- 
+api endpoint:   https://api.ng.bluemix.net
+api version:    2.92.0
+user:           <Tu IBM Id>
+org:            <Nombre de organización>
+space:          <Nombre del espacio>
 ```
-### Overview of Exercise
-For this exercise, we seek to learn how to rapidly instantiate a MySQL DB service and populate it with sample data, thus forming an asset for future exercises exploring the creation of database CRUD APIs.
 
-We will use a simple Java application to populate the data that will be accessible via the APIs.
+### Sumario
 
-Although the API is based around a simple `employees` database, you can follow similar methods to provide APIs around your more complex and production enterprise Java/Node.js application.
+Para este ejercicio aprenderemos como crear una instancia de base de datos MySQL y poblarlo con datos de ejemplo. Este ejericio nos servirá para la construcción de nuestras API CRUD de los siguientes ejercicios.
 
-### Creating a database service
- With a Platform as a Service (PaaS) such as IBM Bluemix, DB creation and interaction is super easy -- as you'll see.
+Emplearemos una aplicación Java sencilla para la carga de datos. La base de datos que crearemos será una típica de `empleados`. El procesdimiento que haremos en este ejercicio aplica para cualquier aplicación enterprise que realices sobre Java/Node.js.
 
-IBM Bluemix offers a wide array of data service options that are just a few clicks/commands away.
+### Paso 1: Crear el servicio de base de datos
+
+Las bondades de las Nubes de hoy día es la capacidade poder crear servicios al toque, gracias al modelo de consumo de Plataforma como Servicio (PaaS). Por ejemplo, te mostramos el catalogo de servicios de bases de datos que ofrece IBM Cloud.
 
 ![Service catalog](../../images/ex4/datasvc_catalog.png)
 
