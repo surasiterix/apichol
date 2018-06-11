@@ -4,13 +4,13 @@
 
 ### Prerrquisitos
 
-## Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1)).
+## Tener instalado el API Connect Toolkit [Ejercicio 1](../ex1).
+## Descargar la versión portable de DBeaver en este [enlace](https://dbeaver.io/download/)
 ## Asegúrate que estés en el directorio correcto para el ejercicio ("ex4")
 
 ```
 cd <Ruta al laboratorio>/apichol/exercises/ex4
 ```
-
 ### Verifica que tengas definido el Target de Cloud Foundry en tu isntancia de IBM Cloud
 
 ```
@@ -31,127 +31,86 @@ space:          <Nombre del espacio>
 
 Para este ejercicio aprenderemos como crear una instancia de base de datos MySQL y poblarlo con datos de ejemplo. Este ejericio nos servirá para la construcción de nuestras API CRUD de los siguientes ejercicios.
 
-Emplearemos una aplicación Java sencilla para la carga de datos. La base de datos que crearemos será una típica de `empleados`. El procesdimiento que haremos en este ejercicio aplica para cualquier aplicación enterprise que realices sobre Java/Node.js.
+Emplearemos DBeaver, un entorno gráfico de gestión de bases de datos open source, para crear y poblar la tabla `employee` que utlilizaremos en los siguientes ejercicios
 
 ### Paso 1: Crear el servicio de base de datos
 
-Las bondades de las Nubes de hoy día es la capacidade poder crear servicios al toque, gracias al modelo de consumo de Plataforma como Servicio (PaaS). Por ejemplo, te mostramos el catalogo de servicios de bases de datos que ofrece IBM Cloud.
+Las bondades de las Nubes de hoy día está en la capacidad de poder crear servicios al toque, gracias al modelo de consumo de Plataforma como Servicio (PaaS). Por ejemplo, te mostramos el catalogo de servicios de bases de datos que ofrece IBM Cloud.
 
 ![Service catalog](../../images/ex4/datasvc_catalog.png)
 
-For this exercise, we'll be instantiating a MySQL database service offered on the Bluemix platform.  MySQL is an open-source relational database management system (RDBMS).
+Para nuestro ejercicio utilizaremos MySQL ofrecido en la nube de IBM. MySQL es una base de datos relacional (DBRMS) open source.
 
-Creating a Bluemix service instantiation requires input of three fields:
+Para instanciar un servicio en IBM Cloud se requieren tres campos:
 
-- Name of the service offering
-- Plan of the service offering
-- Instance name of your instantiated service
+- **Nombre del servicio a instanciar**: Es el nombre definido en IBM Cloud para un servicio en particular
+- **Plan a aplicar al servicio**: Son las modalidades en que se puede consumir el servicio, Calidad de servicio (QoS) y precio
+- **Nombre de la instancia a crear**: Definido por usuario y será un identificador único de la instancia del servicio que permitirá enlazarle a otros servicios dentro de la Nube.
 
-**Name of the service offering**:<br/>
-Defined by the service provider when registering their service with Bluemix.
-
-**Plan of the service offering**:<br/>
-Defined by the service provider based on varying levels of quality of service (QoS), resource throttling and price.
-
-**Instance name**:<br/>
-Defined by the user.  This will be the canonical name that uniquely identifies this service instantiation.  It is typically used when defining service dependencies within application manifests or Bluemix CLI operations such as service binding.
-
-####Identifying the name and plan of a service offering
-
-Cloud Foundry also offers a listing of the entire service marketplace registered within the PaaS platform.  **Beware, this can be a lengthy query** (~2-5 mins) proportional to the size of the platform catalog.  For this workshop, it neither recommended nor required.  However, for the curious the command is:   
-
-```
-cf marketplace
-```
-
-The output for the `cf` CLI would look something like below.
-
-```
-Getting services from marketplace in org xxx@xxx.xxx / space dev as xxx@xxx.xxx ...
-OK
-
-service                                          plans                                                                         description
-APIConnect                                       Essentials, Professional*, Enterprise*, Professional 5M*, Enterprise 25M*     Create, manage, enforce, and run APIs.
-AdvancedMobileAccess                             Gold*, Bronze*                                                                Finely tune mobile apps with operational analytics, and ensure communications with back end systems are secure.
-Application Security on Cloud                    free, standard*                                                               A robust, practical security vulnerability assessment for your web applications.
-Auto-Scaling                                     free                                                                          Automatically increase or decrease the number of application instances based on a policy you define.
-
-[....] 
-```
-As you can see, the first two columns contain 2 out of 3 of parameters that we need.  In particular, there are two MySQL services of interest to us:
-
-- **Cleardb**
-- **MySQL** 
-
-While the marketplace command contains both names and plans, there may be times where you know the name of the service and simply want to enumerate the latest plan options. There is a convenient shortcut CLI command to discover only the associated plans.<br/>
-**Nota Bene:  This convenience does not extend to services designated as experimental within the catalog**
-
-For example, the command to discover the Cleardb plans are:
+Lo primero que haremos es obtener los detalles del servicio que precisamos para nuestro ejercicio. Para ello haremos una búsqueda en el _market place_ de IBM Cloud para ubicar el servicio de MySQL. En este caso, tomaremos **Cleardb**
 
 ```
 cf marketplace -s cleardb
 ```
 
-
-The output for the `cf` CLI should look something like below.
+El resultado de ejecutar este comando se muestra a continuación
 
 ```
-Getting service plan information for service cleardb as xxx@xxx.xxx...
+Getting service plan information for service cleardb as <IBM Id>...
 OK
 
-service plan   description                                                                     free or paid
-spark          Great for getting started and developing your apps                              free
-boost          Best for light production or staging your applications                          paid
-shock          Designed for apps where you need real MySQL reliability, power and throughput   paid
-amp            For apps with moderate data requirements                                        paid
+service plan   description                           free or paid
+cb5            Free trial for evaluation purposes.   free
+cb10           For light MySQL workloads.            paid
+cb20           For modest MySQL workloads.           paid
+cb30           For moderate MySQL workloads.         paid
+cb40           For large MySQL workloads.            paid
+cb50           For very large MySQL workloads.       paid
 ```
 
-Based on the above commands, we can now discern the key details for both MySQL service providers:
+Para nuestros fines, tomaremos el plan **cb5** que nos ofrece las siguientes características
 
-|  Service Provider 	| Service Name 	| Service Plan (Free) 	|
-|:-----------------:	|:------------:	|:-------------------:	|
-|      ClearDB      	|    cleardb   	|        spark        	|
-| MySQL (Community) 	|     mysql    	|         100         	|
+- Tamaño de la base de datos: 10MB
+- Conexiones concurrentes: Hasta 5
+- Desempeño I/O: Bajo
+- Respaldos diarios
+- Gratis :)
 
-At this point, it would seem like we have two options.  Alas! there is another key detail that we absolutely must consider for our use case.
-
-<div style="padding-left: 2em;font-weight:bold">
-Whether a service provides a public vs. platform endpoint access of the DB service
-</div>
-
-The community provided MySQL service will generate connection urls that contain **private network IPs** only visibile to other platform applications (e.g. IBM Bluemix applications, containers, etc ...).  By contrast, the ClearDB 3rd party MySQL service generates **public internet visible connection urls**.  Public accessibility is the characteristic that we must embrace for our Hands On Lab needs, given that we'd like to connect and populate this DB from our local VM image. Therefore, we will create our MySQL service instance by issuing the following command specific for ClearDB MySQL: 
+Ahora, crearemos nuestra instancia de base de datos Cleardb usando el siguiente comando:
 
 ```
-cf create-service cleardb spark workshopmysql
+cf create-service cleardb cb5 workshopmysql
 ```
 
-The output for the `cf` CLI should look something like below.
+El resultado debe lucir como este
 
 ```
-Creating service instance workshopmysql in org xxx@xxx.xxx / space dev as xxx@xxx.xxx...
+Creating service instance workshopmysql in org <Nombre de la organización> / space <Nombre del espacio> as <IBM Id>...
 OK
 ``` 
+**Excelente!** Acabamos de crear nuestra base de datos en IBM Cloud utilizando comandos de Cloud Foundry. Ahora a crear las credenciales de conexión a nuestra base de datos.
 
-**Congratulations**, you now have a MySQL service instance exclusively for your application and API development needs.  At this point, you may be wondering about discovery of connection information to access this service.  Fear not, we simply need to create a service key credential set for our newly minted MySQL service. We can do this by issuing the following command:
+### Paso 2: Crear credenciales de acceso a nuestra instancia de BD
+
+Ejecutaremos el siguiente comando para crear las credenciales que precisamos para acceder a nuestra instancia.
 
 ```
 cf create-service-key workshopmysql connectioncreds
 ```
 
-The output for the `cf` CLI should look something like below.
+El resultado debe ser algo como esto:
 
 ```
-Creating service key connectioncreds for service instance workshopmysql as xxx@xxx.xxx...
+Creating service key connectioncreds for service instance workshopmysql as <IBM Id>...
 OK
 ``` 
 
-Finally, we can examine the generated credentials by executing the following command:
+Ahora, obtendremos los valores generados empleando el siguiente comando:
 
 ```
 cf service-key workshopmysql connectioncreds
 ```
-
-The output for the `cf` CLI should look something like below.
+La salida debe lucir como esto:
 
 ```
 {
@@ -164,9 +123,12 @@ The output for the `cf` CLI should look something like below.
  "username": "b2xxxxxxxxxx7"
 }
 ```
-Armed with this connection information, we are now able to interact with our new MySQL DB.
 
-Let's leverage this newly minted power to populate it with some Employee Data.  If you're curious about the data that we'll insert, check out the `populate.sql` file found within this folder.  You'll see a very long set of VALUES representing basic personnel info like names, birthdate, etc ...:
+Con esta información podemos establecer una conexión JDBC a nuestra instancia. Ahora a llenar la base de datos!
+
+### Paso 3: Poblar la base de datos:
+
+En el ejercicio hemos preparado un archivo (`populate.sql`) con algunos datos de empleados para nuestra instancia de base de datos. Los datos a insertar lucen como este extracto del archivo.
 
 ```
 INSERT INTO `employees`
@@ -179,76 +141,37 @@ VALUES      (10001,
              '1986-06-26'), 
 [....]
 ```
-To make things smoother, we've provided a convenient set of scripts and a CLI Java file that illustrates:
+Con el fin de facilitar este trabajo, usaremos DBeaver para ejecutar nuestros scripts:
 
--  Using Java Code with the MySQL Connector jar to connect to an IBM Bluemix db service
--  Using Bash/Shell scripting techniques to harvest db service credentials using the cf CLI
+Primero configuraremos el conector a MySQL de DBeaver. Buscamos en la lista de drivers "MySQL"
 
-You're encouraged to inspect the **ex4.java**, **setupMySQL.sh** and **svcinspect.sh** files found within this directory that help put these concepts into action.  Assuming that your ClearDB MySQL service is named **workshopmysql**, execute the following command.  Otherwise, substitute your alternate ClearDB MySQL service instance name as appropriate:
+![Driver Selection](../../images/ex4/Beaver_MySQLConnector.png)
 
-```
-./setupMySQL.sh workshopmysql
-```
+Configuraremos los datos de: **Server Host**, **Port**, **Database**, **User name** y **Password** de acuerdo con los valores generados en el proceso de creación de credenciales
 
-The utility execution is broken up into 3 main phases:
+**Importante!** - Se requiere hacer una configuración de propiedades del Driver, en al pestaña "Driver Properties", el atributo "serverTimeZone" al valor "gmt". Tal como se indica en la siguiente figura
 
--  Service Inspection + Credential Gathering 
--  Java Compilation
--  SQL Updates and Queries
+![Driver Properties](../../images/ex4/DBeaver_MySQLDriverProperties.PNG)
 
-Your output should look similar to:
+Probamos la conexión usando el botón "Test connection...". Debemos ver una ventana indicando que la conexión fue exitosa
 
-```
-⚒  Welcome to the MySQL Setup Helper Script
-⚒  Brought to you courtesy of IBM
-⚒  setupMySQL.sh invoked
+![Driver Properties](../../images/ex4/DBeaver_Connectionsuccessful.PNG)
 
-⚒  Welcome to the Service Inspector ...
-👀  Target Instance: workshopmysql
-⚒  Interrogating Service Instance for Credentials ...
-👀    Service Key Found: connectioncreds
-⚒    Parsing Service Key ...
-🎁    Service Instance Type: ClearDB
-🎁      hostname: us-cdbr-iron-east-04.cleardb.net
+Bien. Casi prontos para terminar. Ahora le damos dos veces "Next >". Colocamos el nombre de la conexión "MySQL - workshopmysql" y pulsamos "Finish". _Voilà_
 
-[....]
+Hacemos doble click en el conector que creamos para establecer la conexión. Esto puede tardar un poco en ejecutarse. El resultado debe verse de esta forma
 
-⇌  Fetching commons-cli-1.3.1.jar from http://.../commons-cli-1.3.1-bin.tar.gz
-2016-09-15 23:22:22 URL:http://.../commons-cli-1.3.1-bin.tar.gz [305600/305600] -> "commons-cli.tar.gz" [1]
-🚚  Compiling Exercise 4 Java Setup, Populate and Query Utility
-⏳  Executing utility to see the arguments available ...
-usage: ex4 [-d <dbname>] [-h <host>] [-n <port>] [-p <password>] [--query]
-       [-s <sql>] [-u <username>] [-w <wanthelp>]
-       Options, flags and arguments may be in any order
+![Driver Properties](../../images/ex4/DBeaver_Connected.PNG)
 
-[....]
+En el menú "File" damos la opción "Open file...". Buscamos el directorio del ejercicio y abrimos el archivo `setup.sql` Eso nos debería cargar en el editor de SQL la sentencia para crear la tabla `employee` para nuestro ejercicio. 
 
-Updating target MySQL DB ...
-0
-🎁  Employees Table Created
+Una vez cargado el script, pulsaremos `<Ctrl> + <Enter>` para ejecutar el script. Con esto, habremos creado la tabla
 
-[....]
+Repetimos los pasos anteriores para cargar los datos en el archivo `populate.sql`
 
-Updating target MySQL DB ...
-1000
-🎁  Employees Table Populated
+**Felicitaciones!** Hemos cargado y poblado nuestra base de datos MySQL en la nube de IBM
 
-[....]
+### Resumen del Ejercicio
+Hemos configurado una instancia de base de datos MySQL usando la CLI de Cloud Foundry en IBM Cloud. Hemos creado las credenciales de acceso a nuestra instancia usando la CLI de Cloud Foundry. Por último, descargamos y confiuramos DBeaver para tener un entorno gráfico para gestionar nuestra base de datos en la Nube. Creamos la tabla `employee`y le hemos cargado un conjuno de datos de pruebas que usaremos en los siguientes ejercicios.
 
-Querying target MySQL DB ...
-10001  1953-09-02  Georgi  Facello  M  1986-06-26
-10002  1964-06-02  Bezalel  Simmel  F  1985-11-21
-10003  1959-12-03  Parto  Bamford  M  1986-08-28
-10004  1954-05-01  Chirstian  Koblick  M  1986-12-01
-
-[....]
-```
-For the curious, the utility intentionally generates and persists a resultSet of the records in a tab delimited (*.tsv) file within this directory for your perusal.
-
-Sweet! That's it!  We can all agree, that was pretty simple to standup a MySQL DB and get it populated.  
-
-### Summary of exercise and next steps
-
-We started with a goal of instantiating a MySQL DB and getting it populated with some sample data.  We learned about available IBM Bluemix DB services, the required details for creating a MySQL DB instance and the use of a simple Java program that consumes the generated credentials to facilitate connecting and populating the new MySQL DB instance.
-
-In [Exercise 5](../ex5), we will dive into creation of database CRUD APIs that leverage this just populated DB.
+En el [ejercicio 5](../ex5) emepezaremos nuestro viaje en la creación de las APIs CRUD para la base de datos que acabamos de configurar.
