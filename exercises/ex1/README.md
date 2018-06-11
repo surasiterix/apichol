@@ -18,7 +18,7 @@ Se debió crear un directorio llamado `apichol` donde están todos los contenido
 cd <Ruta al labotario>/apichol/exercises/ex1
 ```
 
-### Sunmario
+### Sumario
 
 En este ejercio prepararemos nuestra instancia de Cloud Foundry en IBM Cloud y los servicios de API Connect local.
 
