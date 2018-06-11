@@ -1,79 +1,83 @@
 # API Connect Hands-On Labs
 
-## Exercise 5: Create database CRUD APIs with LoopBack models
+## Ejercicio 5: Crear APIs CRUD a base de datos con modelos LoopBack
 
-### Prerequisites
+### Prerrequisitos
 
-To run through this exercise, you will need to have done the following steps:
+Para este ejercicio precisamos:
 
-**Prerequisite 1**: Installed the API Connect toolkit ([Exercise 1](../ex1)).
+**Tener instalado el toolkit de API Connect** del [ejericio 1](../ex1).
 
-**Prerequisite 2**: Generated a LoopBack app ([Exercise 3](../ex3)).
+**La app de Loopback** del [ejericio 3](../ex3)
 
-**Prerequisite 3**: Created a database service on Bluemix and connected it to your LoopBack app ([Exercise 4](../ex4)).
+**La base de datos Cleardb** del [ejercicio 4](../ex4)
 
-### Overview of Exercise
+### Sumario
 
-In this exercise we will create simple CRUD-based APIs around the `employees` database.
+En este ejercicio crearemos unas APIs CRUD sobre `employees` de nuestra base de datose.
 
-### Ensure that you are in the LoopBack application directory
+### Paso 1: 
 
-Ensure that you are in the LoopBack directory you created in [Exercise 3](../ex3)
-
-```
-cd <path-to-hol-folder>/apichol/exercises/ex4/loopbackapp
-```
-
-### Launch the API Connect Designer (Developer toolkit)
-
-The API Connect Designer is a GUI that allows developers to graphically create and manage their APIs. 
+**Importante!** ha diferencia de ejercicios anteriores, esta vez tenemos que estar en el directorio del ejercicio 3 donde reside nuestra App Loopback
 
 ```
+cd <Ruta al laboratorio>\apichol\exercises\ex3
+```
+
+### Paso 1: Instalar conector de MySQL para Loopback
+
+Accedemos al directorio de nuestra aplicación loopback
+
+```
+cd loopback\myloopbackapp
+```
+
+Descargaremos y configuraremos el conector de Loopback para bases de datos MySQL. Para ello ejecutaremos el siguiente comando
+
+```
+npm i --save loopback-connector-mysql
+```
+
+### Paso 2: Crear conexión a la base de datos Cleardb
+
+Accederemos al editor de APIs de API Connect utilizando el siguiente comando
+
+```
+set SKIP_LOGIN=true
 apic edit
 ```
 
-After a brief pause, the following message is displayed.
+Seleccionaremos la viñeta "Data Sources" y daremos click en el botón "Add (+)" con el nomnbre "mysql-db"
 
-`Express server listening on http://127.0.0.1:9000`
+![Add Data Source](../../images/ex5/APIC_NewDatasource.png)
 
-The API Designer opens in your default web browser. If it prompts you to login, use your IBM Bluemix credentials.
+Llenaremos los valores con los siguientes datos:
 
-### Create a database connection
+- **Connector**: MySQL
+- **URL**: El valor "URI" que obtuvimos al generar las credenciales de acceso en el [ejercicio 4](../ex4)
+- **Database**: El valor "name" que obtuvimos al generar las credenciales de acceso en el [ejercicio 4](../ex4)
 
-Click on the Data Sources tab. Hit the "Add" button, and choose name for your database - "mysql-db".
+Luego presionaremos el ícono salvar en la parte superior derecha (Ícono de diskette). Ahora comprobaremos que nuestra conexión está funcionando. Presionaremos el ícono del hombre corriendo (Test Data Source Conection) y debemos obtener el siguiente resultado
 
-<img src="SS1.png"  width="400">
+![Test Connection OK](../../images/ex5/APIC_TestConnectionOK.png)
 
-In the connector tab, choose "MySQL". It'll prompt you to install the connector; simply follow the prompts.
+### Paso 3: Crear modelos CRUD para la base de datos
 
-<img src="SS2.png"  width="400">
+Con la conexión a la base de datos probada, hacemos click en "<- All data sources" para regresar.
 
-**If the previous step did not work, continue with this step. Otherwise, proceed below.**
+Ahora, haremos click en la viñeta "Models". Haremos click en "Add (+)" para crear un nuevo modelo y le pondremos el nombre `employees` y pulsaremos el botón "New"
 
-**Work-Around**: If you saw an error, switch back to your terminal. Use `Ctrl+C` to end the `apic edit` instance. This shuts down the API Designer Toolkit.  Then, type the command `npm i --save loopback-connector-mysql` to manually install the LoopBack connector for MySQL databases. Then, run `apic edit` again, switch to the `Databases` tab, open your `mysql-db` entry, and continue below.
+En el campo "Data Source", seleccionaremos el valor "mysql-db". Haremos la carga de propiedades de acuerdo con la siguiente captura de pantalla.
 
-Enter the database credentials you noted in [Exercise 4](../ex4). Enter the `uri` credential into the `url` field and your `name` credential into the `Database` field. 
+![Model properties](../../images/ex5/APIC_ModelProperties.png)
 
-<img src="SS4.png"  width="600">
+Este modelo nos permitirá mapear los parámetros de nuestra API con campos de nuestra tabla. Los tipos de datos de Loopback mapean con los MySQL de forma que no se precisa conversión explícita de los valores en las llamadas a nuestra API. Finlizaremos el ejercicio pulsando el ícono salvar, en la parte superior derecha. Hecho esto, API Connect genera de forma automática las APIs representadas en el modelo.
 
-Hit the Save button on the top-right. This should test your database connection and alert you if your credentials are incorrect or if the connection was unable to be made.
+**Felicitaciones!** Acabas de crear las APIs CRUD basado en un modelo de Loopback.
 
-### Create Models to work with your database
 
-Let's create a model so that you're able to perform CRUD (Create/Read/Update/Delete) operations against your MySQL database. Go to the Models tab and add a new model by clicking the add button. Name it `employees`.
+### Resumen del ejercicio
 
-Choose the `mysql-db` Data Source, and enter the following properties:
+Creamos un datasource para una base de datos MySQL a nuestra aplicación Loopback. Creamos un modelo de Loopback basado en la estructura de `employees` de nuetra base datos usando API Connect y se generaron las API CRUD de nuetro modelo de forma automática.
 
-<img src="SS3.png"  width="750">
-
-We are about to create a LoopBack model representation of the MySQL database. The name of the model `employees` refers to the table name in the MySQL database. The various property names refer to the MySQL "fields". The types translate to MySQL fields -- for example, `String` to `VARCHAR`. `Key` in LoopBack is similar to `Key` in MySQL.
-
-Hit the `Save` button on the top right to create the model. That's it! Once a model is created, the APIs to represent that model are automatically generated for you.
-
-### Summary and next steps
-
-We just created APIs around the `employees` database.
-
-In the next exercise, we will test your new APIs by starting the LoopBack application locally and use an interactive OpenAPI explorer to call your APIs!
-
-Next up, Exercise 6: [Test, Explore and Deploy your LoopBack application](../ex6)
+En el [ejercicio 6](../ex6) probaremos, eploraremos y desplegaremos nuestra aplicación Loopback.
