@@ -14,6 +14,8 @@ Este ejercicio requiere de lo siguiente:
 
 **APIs CRUD** del [ejercicio 5](../ex5)
 
+**Aprovisioar API Manager en IBM Cloud**
+
 ### Sumario
 
 En este ejercicio veremos el fruto del trabajo hasta ahora realizado. Probaremos nuestras APIs y exploraremos el Swagger generado, para luego, hacer nuestro despliegue en IBM Cloud
