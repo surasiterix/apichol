@@ -43,7 +43,7 @@ Esta vez utilicemos nuestra credencial de acceso a IBM Cloud (También llamado I
 
 Una vez halla cargado el toolkit, levantaremos nuestra aplicación pulsando el botón "Play" ubicado en la parte inferior izquierda. Nuestra aplicación estará arriba una vez veamos "Running..." barra de estado como en la siguiente imagen
 
-![Node Running](../../images/APIC_Noderunning.png)
+![Node Running](../../images/ex6/APIC_Noderunning.png)
 
 Como podemos ver, existen dos direcciones: **Gateway** y **Application**. El primero representa la puerta de entrada de nuestras APIs, donde podemos configurar políticas de seguridad para proteger nuestras APIs. El segundo es donde está el _end-point_ de nuestra APIs.
 
@@ -53,7 +53,7 @@ Ahora que está arriba nuestro ambiente, probemos llamar a algunas APIs!
 
 Pulsemos el botón de "Explore" (Compás) en la parte superior derecha. Esto nos mostrará el documento swagger con todos los servicios REST disponibles
 
-![Swagger](../../images/APIC_Swagger.png)
+![Swagger](../../images/ex6/APIC_Swagger.png)
 
 En el swagger podemos ver los servicios creados en el ejericio 3 y en el 5. Ahora probemos los servicios
 
@@ -63,88 +63,42 @@ Probemos hacer una consulta de nuestros empleados usando el servicio **GET /Empl
 
 En el panel izquierdo seleccionaremos "Lifecycle", para luego desactivar la validación CORS.
 
-![Disabling CORS](../../images/APIC_DisablingCORS.png)
+![Disabling CORS](../../images/ex6/APIC_DisablingCORS.png)
 
 Ahora procederemos con la prueba de nuestro servicio. Volvamos a dar click en "Explore" y seleccionemos de los _drafts_ employees.find
 
-Haremos click en el enlace "Try it"
+Haremos click en el enlace "Try it" y luego en el botón "Call operations"
 
+![Testing employees](./../images/ex6/APIC_TestingApi.png)
 
+### Paso 4: Despleguemos en IBM Cloud
 
-Along the left side, you should see a number of operations for the `Employee` model you created in [exercise 5](../exercises/ex5). Let's try calling a series of these operations.
+Habiendo validado el funcionamiento de nuestra API, procederemos a subir a la nube nuestro servicio. Para ello pulsaremos el botón de "Publish" (Nube con la flecha hacia arriba), que se encuentra en la parte superior derecha, y seleccionaremos "Add and manage targets"
 
-#### GET /Employees
+Seleccionaremos "Add IBM bluemix target". Y nos aparecerá este formulario
 
-Let's test retrieving the list of Employees.
+![Publish to target](../../images/ex6/APIC_PublishToTarget.png)
 
-Navigate to the operation `GET /Employees`. Along the right side, there is a black section which shows you how to call that operation, provides boiler code, and has a button "Call Operation". Hit the button to call your GET operation.
+**Importante**: Asegurate de elegir la organización y espacio correctos. 
 
-<img src="SS3.png"  width="800">
+Ahora crearemos nuestra aplicación. Nombremosla `EmployeeAPI` y pulsemos el botón "(+)" y luego pulsa "Salvar".
 
-You might get a CORS error. Please override the CORS error as suggested in exercise 2. Then, retry the `Call Operation`.
+En estos pasos hemos creado un destino de publicación en IBM Cloud. Ahora subiremos nuestra API pulsando, nuevamente, el botón Publish y seleccionamos el target que acabamos de crear.
 
-You should see a `200 OK` response, along with a large list of employees in the database!
+Selecciona las opciones `Publish Application` y `Stage or Publish products`, luego pulsa el botón "Publish". Con eso empezará a subirse la aplicación a la nube de IBM.
 
-<img src="SS4.png"  width="300">
+![Publish options](../../images/ex6/APIC_PublishOptions.png)
 
-#### POST /Employees
-
-Let's test adding an employee to the database.
-
-Navigate to the operation `POST /$Employees` to create a database entry. Scroll down to the "Call Operation" button, enter some data into the Parameters section (or use the `Generate` button), and hit call Operation.
-
-<img src="SS5.png"  width="300">
-
-You should see a `200 OK` response, as well as a response body indicating that the database update has succeeded.
-
-<img src="SS6.png"  width="300">
-
-### Deploy your APIs to IBM Bluemix
-
-Once you're happy with the APIs you've created, you can push them the Bluemix, IBM's PaaS (Platform as a Service).  Bluemix will host your APIs and allow you to graphically manage them.
-
-Start by hitting the Publish button on the top right of the API Designer.
-
-Choose `Add and Manage Targets` and `Add IBM Bluemix target`.
-
-Ensure that the organization is correct -- it should correspond to your Bluemix email.  Choose the `Sandbox` catalog.
-
-<img src="SS7.png"  width="300">
-
-Type a new application name: `EmployeeAPI`. Then hit the `(+)` button, and hit `Save`.
-
-<img src="SS8.png"  width="300">
-
-You've now created a publish target; deploy to it by hitting the `Publish` button and choosing the target you just created.
-
-<img src="SS9.png"  width="300">
-
-Choose both `Publish Application` and `Stage or Publish` products. Hit `Publish`. That's it! Your APIs are now securely pushed to the cloud.
-
-<img src="SS10.png"  width="300">
-
-It may take a few minutes for the application to get started. You can track the status of your application by using the `CF` client that you setup in [Exercise 1](../ex1). Simply run the `cf app EmployeeAPI` command:
+Para ir monitoreando el estado de carga de nuestra aplicación, utilizaremos este comando de la CLI de Cloud Foundry.
 
 ```
-$ cf app employeeapi
-Showing health and status for app employeeapi in org raghsrin@us.ibm.com / space dev as raghsrin@us.ibm.com...
-OK
-
-requested state: started
-instances: 0/1
-usage: 256M x 1 instances
-urls: apiconnect-be783035-d8e9-4ceb-b2d7-f16e9340c1d1.raghsrinusibmcom-dev.apic.mybluemix.net
-last uploaded: Tue Sep 13 19:06:32 UTC 2016
-stack: cflinuxfs2
-buildpack: unknown
+cf app employeeapi
 ```
 
-Once the `requested state` is `started`, the application is started and your APIs are being managed by API Connect!
+Nuestra app estará lista en el momento que la respuesta del comando diga `requested state: started`. Desde ese momento, podemos usar API Connect en IBM Cloud para gestionar nuestra API directamente en la nube
 
-### Summary and next steps
+### Resumen del Ejercicio
 
-In this exercise we explored, tested and deployed the application to Bluemix.
+En este ejercicio hemos aprendido a crear un ambiente local para hacer pruebas unitarias de nuestra API. Pudimos hacer pruebas desde API Connect para ver el comportamiento de los servicios que componen nuestra API. Finalmente, publicamos nuestra API en la nube de IBM para gestionarla en ambiente productivo.
 
-In the next two exercises, we'll explain how you can test your APIs and create a developer portal so others can consume your APIs.
-
-Next up, Exercise 7: [Explore your deployed APIs with the API Manager on Bluemix](../ex7)
+En el [ejericio 7](../ex7) finalizaremos nuestro viaje usando API Manager en IBM Cloud y viendo las funcionalidades del portal de desarroladores de API Connect.
