@@ -69,7 +69,7 @@ Ahora procederemos con la prueba de nuestro servicio. Volvamos a dar click en "E
 
 Haremos click en el enlace "Try it" y luego en el botón "Call operations"
 
-![Testing employees](./../images/ex6/APIC_TestingApi.png)
+![Testing employees](../../images/ex6/APIC_TestingApi.png)
 
 ### Paso 4: Despleguemos en IBM Cloud
 
