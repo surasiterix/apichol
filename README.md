@@ -60,8 +60,6 @@ Los ejercicios están pensados para realizarse secuencialmente, ya que son progr
 - Ejercicio 5: [Crear APIs CRUD a base de datos con modelos LoopBack](exercises/ex5)
 - Ejercicio 6: [Probar, Explorar y desplegar aplicaciones LoopBack](exercises/ex6)
 - Ejercicio 7: [Explorar APIs desplegados con API Manager en IBM Cloud](exercises/ex7)
-- Ejercicio 8: [Tour A - Crear una API metereológica usando API Connect en IBM Cloud](exercises/ex8)
-- Ejercicio 9: [Tour B - Generar un Portal de desarrolladores para tus APIs metereológicas](exercises/ex9)
 
 ## Mas información
 
