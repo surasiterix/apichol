@@ -101,4 +101,4 @@ Nuestra app estará lista en el momento que la respuesta del comando diga `reque
 
 En este ejercicio hemos aprendido a crear un ambiente local para hacer pruebas unitarias de nuestra API. Pudimos hacer pruebas desde API Connect para ver el comportamiento de los servicios que componen nuestra API. Finalmente, publicamos nuestra API en la nube de IBM para gestionarla en ambiente productivo.
 
-En el [ejericio 7](../ex7) finalizaremos nuestro viaje usando API Manager en IBM Cloud y viendo las funcionalidades del portal de desarroladores de API Connect.
+En el [ejercicio 7](../ex7) finalizaremos nuestro viaje usando API Manager en IBM Cloud y viendo las funcionalidades del portal de desarroladores de API Connect.
