@@ -27,7 +27,7 @@ Entrando en [IBM Cloud](https://new-console.ng.bluemix.net) accederemos a API Co
 
 En la lista de APIs podemos ver `EmployeeAPI` en la lista. Por lo que haremos click en "Explore" para ver los servicios que disponemos. 
 
-![Cloud APIs](../../images/APIC_CloudAPIs.png)
+![Cloud APIs](../../images/ex7/APIC_CloudAPIs.png)
 
 ### Paso 2: Ejecutemos nuestras APIs
 
