@@ -1,60 +1,75 @@
 # API Connect Hands-On Labs
 
-## Exercise 6: Test, Explore and Deploy your LoopBack application
+## Ejercicio 6: Probar, Explorar y desplegar aplicaciones LoopBack
 
-### Prerequisites
+### Prerrequisitos
 
-To run through this exercise, you will need to have done the following steps:
+Este ejercicio requiere de lo siguiente:
 
-**Prerequisite 1**: Installed the API Connect toolkit ([Exercise 1](../ex1)).
+**Tener instalado el toolkit de API Connect** del [ejericio 1](../ex1).
 
-**Prerequisite 2**: Generated a LoopBack app ([Exercise 3](../ex3)).
+**La app de Loopback** del [ejericio 3](../ex3)
 
-**Prerequisite 3**: Created a database service on Bluemix and connected it to your LoopBack app ([Exercise 4](../ex4)).
+**La base de datos Cleardb** del [ejercicio 4](../ex4)
 
-**Prerequisite 4**: Created database CRUD APIs in the API Designer ([Exercise 5](../ex5)).
+**APIs CRUD** del [ejercicio 5](../ex5)
 
-### Overview of Exercise
+### Sumario
 
-In this exercise we will test the APIs created in the previous exercise, explore the swagger-based API UI, and deploy your APIs to Bluemix.
+En este ejercicio veremos el fruto del trabajo hasta ahora realizado. Probaremos nuestras APIs y exploraremos el Swagger generado, para luego, hacer nuestro despliegue en IBM Cloud
 
-### Ensure that you are in the LoopBack application directory
+### Paso 1: Levantemos el Ambiente
 
-Ensure that you are in the LoopBack directory you created in [Exercise 3](../ex3).
-
-```
-cd <path-to-loopback-folder>
-```
-
-### Launch the API Connect Designer (Developer toolkit)
-
-The API Connect Designer is a GUI that allows developers to graphically create and manage their APIs. 
+**Importante**: Aseguremos estar en el directorio del ejercicio 3
 
 ```
+cd <Ruta al laboratorio>\apichol\exercises\ex3
+```  
+
+Accedamos al directorio de nuestra aplicación loopback
+
+```
+cd loopback\myloopbackapp
+```
+
+Iniciemos el toolkit de API Connect empleando este comando
+
+```
+set SKIP_LOGIN=false
 apic edit
 ```
 
-After a brief pause, the following message is displayed.
+Esta vez utilicemos nuestra credencial de acceso a IBM Cloud (También llamado IBM Id). 
 
-`Express server listening on http://127.0.0.1:9000`
+Una vez halla cargado el toolkit, levantaremos nuestra aplicación pulsando el botón "Play" ubicado en la parte inferior izquierda. Nuestra aplicación estará arriba una vez veamos "Running..." barra de estado como en la siguiente imagen
 
-The API Designer opens in your default web browser. If it prompts you to login, use your IBM Bluemix credentials.
+![Node Running](../../images/APIC_Noderunning.png)
 
-### Start your LoopBack application
+Como podemos ver, existen dos direcciones: **Gateway** y **Application**. El primero representa la puerta de entrada de nuestras APIs, donde podemos configurar políticas de seguridad para proteger nuestras APIs. El segundo es donde está el _end-point_ de nuestra APIs.
 
-On the bottom left of the API Designer, hit the `Play` button to start your application. After a short delay, your application will change to "Running", and you should see two links: Micro Gateway and Application.  
+### Paso 2: Exploremos nuestra API
 
-<img src="SS1.png"  width="800">
+Ahora que está arriba nuestro ambiente, probemos llamar a algunas APIs!
 
-The application link corresponds to the LoopBack application you created in the earlier exercises. It hosts the CRUD APIs you created in [exercise 5](../exercises/ex5). The Micro Gateway link corresponds to a fully-featured API gateway which proxies requests to your LoopBack application, allowing you test your gateway policies.
+Pulsemos el botón de "Explore" (Compás) en la parte superior derecha. Esto nos mostrará el documento swagger con todos los servicios REST disponibles
 
-### Test and Explore your Swagger-based APIs
+![Swagger](../../images/APIC_Swagger.png)
 
-Now that the application is running, let's try calling some of the APIs!
+En el swagger podemos ver los servicios creados en el ejericio 3 y en el 5. Ahora probemos los servicios
 
-On the top right of the `API Designer`, hit the `Explore` button. This takes you to an API Explorer, allowing you to explore the APIs defined in your generated Swagger doc.
+### Paso 3: Ejecutemos una API
 
-<img src="SS2.png"  width="800">
+Probemos hacer una consulta de nuestros empleados usando el servicio **GET /Employees**. Antes, precisamos desactivar CORS (Cross-origin Resource Sharing) que es una política de seguridad para evitar que los recursos sean accesibles fuera del dominio definido. Para ello, haremos click en la viñeta "APIs" y seleccionaremos nuestra API.
+
+En el panel izquierdo seleccionaremos "Lifecycle", para luego desactivar la validación CORS.
+
+![Disabling CORS](../../images/APIC_DisablingCORS.png)
+
+Ahora procederemos con la prueba de nuestro servicio. Volvamos a dar click en "Explore" y seleccionemos de los _drafts_ employees.find
+
+Haremos click en el enlace "Try it"
+
+
 
 Along the left side, you should see a number of operations for the `Employee` model you created in [exercise 5](../exercises/ex5). Let's try calling a series of these operations.
 
