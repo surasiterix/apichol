@@ -6,15 +6,15 @@
 
 Este ejercicio requiere de lo siguiente:
 
-**Tener instalado el toolkit de API Connect** del [ejericio 1](../ex1).
+**Tener instalado el toolkit de API Connect** del [ejercicio 1](../ex1).
 
-**La app de Loopback** del [ejericio 3](../ex3)
+**La app de Loopback** del [ejercicio 3](../ex3)
 
 **La base de datos Cleardb** del [ejercicio 4](../ex4)
 
 **APIs CRUD** del [ejercicio 5](../ex5)
 
-**Aprovisioar API Manager en IBM Cloud**
+**Aprovisionar API Manager en IBM Cloud**
 
 ### Sumario
 
