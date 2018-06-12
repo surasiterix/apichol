@@ -16,15 +16,13 @@ Para este ejercicio precisamos:
 
 En este ejercicio crearemos unas APIs CRUD sobre `employees` de nuestra base de datose.
 
-### Paso 1: 
+### Paso 1: Instalar conector de MySQL para Loopback
 
 **Importante!** ha diferencia de ejercicios anteriores, esta vez tenemos que estar en el directorio del ejercicio 3 donde reside nuestra App Loopback
 
 ```
 cd <Ruta al laboratorio>\apichol\exercises\ex3
 ```
-
-### Paso 1: Instalar conector de MySQL para Loopback
 
 Accedemos al directorio de nuestra aplicación loopback
 
